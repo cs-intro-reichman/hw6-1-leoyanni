@@ -164,8 +164,8 @@ public class Runigram {
 	 * v = alpha * v1 + (1 - alpha) * v2, where v1 and v2 are the corresponding r, g, b
 	 * values in the two input color.
 	 */
-	public static Color blend(Color c1, Color c2, double alpha) {
-	double a = alpha;
+		public static Color blend(Color c1, Color c2, double alpha) {
+    double a = alpha;
     double b = 1.0 - alpha;
 
     int r = (int) Math.round(a * c1.getRed()   + b * c2.getRed());
@@ -173,6 +173,7 @@ public class Runigram {
     int bl = (int) Math.round(a * c1.getBlue() + b * c2.getBlue());
 
     return new Color(r, g, bl);
+
 }
 	
 	
