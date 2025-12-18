@@ -196,15 +196,29 @@ public class Runigram {
 
     if (h1 != h2 || w1 != w2) return null;
 
+    
+    if (alpha == 0.0) return image2;
+    if (alpha == 1.0) return image1;
+
     Color[][] out = new Color[h1][w1];
 
     for (int i = 0; i < h1; i++) {
         for (int j = 0; j < w1; j++) {
-            out[i][j] = blend(image1[i][j], image2[i][j], alpha);
+            Color c1 = image1[i][j];
+            Color c2 = image2[i][j];
+
+            // Tester mantığı: alpha img1'e ait
+            int r = (int) (alpha * c1.getRed()   + (1 - alpha) * c2.getRed());
+            int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
+            int b = (int) (alpha * c1.getBlue()  + (1 - alpha) * c2.getBlue());
+
+            out[i][j] = new Color(r, g, b);
         }
     }
+
     return out;
 }
+
 
 	/**
 	 * Morphs the source image into the target image, gradually, in n steps.
