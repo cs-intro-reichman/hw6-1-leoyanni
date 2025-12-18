@@ -125,25 +125,17 @@ public class Runigram {
 	 * Returns an image which is the grayscaled version of the given image.
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
-	int h = image.length;
-    int w = image[0].length;
-    Color[][] out = new Color[h][w];
+		int h = image.length;
+        int w = image[0].length;
+        Color[][] out = new Color[h][w];
 
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            Color c = image[i][j];
-            int r = c.getRed();
-            int g = c.getGreen();
-            int b = c.getBlue();
-            
-            // Calculate grayscale as average of RGB components
-            int gray = (r + g + b) / 3;
-            
-            out[i][j] = new Color(gray, gray, gray);
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                out[i][j] = luminance(image[i][j]);
+            }
         }
+        return out;
     }
-    return out;
-}
 		
 	
 	/**
@@ -172,7 +164,7 @@ public class Runigram {
 	 * v = alpha * v1 + (1 - alpha) * v2, where v1 and v2 are the corresponding r, g, b
 	 * values in the two input color.
 	 */
-	public static Color blend(Color c1, Color c2, double alpha) {
+		    public static Color blend(Color c1, Color c2, double alpha) {
     double a = alpha;
     double b = 1.0 - alpha;
 
@@ -195,33 +187,19 @@ public class Runigram {
 	 * and (1 - alpha) part the second image.
 	 * The two images must have the same dimensions.
 	 */
-		/**
-     * Cosntructs and returns an image which is the blending of the two given images.
-     * The blended image is the linear combination of (alpha) part of the first image
-     * and (1 - alpha) part the second image.
-     * The two images must have the same dimensions.
-     */
-    public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-        // Check if images have same dimensions
-    int h = image1.length;
+	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
+	int h = image1.length;
     int w = image1[0].length;
+
     Color[][] out = new Color[h][w];
 
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
-            Color c1 = image1[i][j];
-            Color c2 = image2[i][j];
-            
-            int r = (int) (alpha * c1.getRed() + (1 - alpha) * c2.getRed());
-            int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
-            int b = (int) (alpha * c1.getBlue() + (1 - alpha) * c2.getBlue());
-            
-            out[i][j] = new Color(r, g, b);
+            out[i][j] = blend(image1[i][j], image2[i][j], alpha);
         }
     }
     return out;
 }
-    }
 
 	/**
 	 * Morphs the source image into the target image, gradually, in n steps.
