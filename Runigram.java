@@ -26,21 +26,28 @@ public class Runigram {
 
 	/** Returns a 2D array of Color values, representing the image data
 	 * stored in the given PPM file. */
-	public static Color[][] read(String fileName) {
-		In in = new In(fileName);
-		// Reads the file header, ignoring the first and the third lines.
-		in.readString();
-		int numCols = in.readInt();
-		int numRows = in.readInt();
-		in.readInt();
-		// Creates the image array
-		Color[][] image = new Color[numRows][numCols];
-		// Reads the RGB values from the file into the image array. 
-		// For each pixel (i,j), reads 3 values from the file,
-		// creates from the 3 colors a new Color object, and 
-		// makes pixel (i,j) refer to that object.
-		//// Replace the following statement with your code.
-		return null;
+		public static Color[][] read(String fileName) {
+        In in = new In(fileName);
+        // Reads the file header, ignoring the first and the third lines.
+        in.readString();
+        int numCols = in.readInt();
+        int numRows = in.readInt();
+        in.readInt();
+        // Creates the image array
+        Color[][] image = new Color[numRows][numCols];
+        // Reads the RGB values from the file into the image array. 
+        // For each pixel (i,j), reads 3 values from the file,
+        // creates from the 3 colors a new Color object, and 
+        // makes pixel (i,j) refer to that object.
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                int r = in.readInt();
+                int g = in.readInt();
+                int b = in.readInt();
+                image[i][j] = new Color(r, g, b);
+            }
+        }
+        return image;
 	}
 
     // Prints the RGB values of a given color.
