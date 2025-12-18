@@ -164,7 +164,7 @@ public class Runigram {
 	 * v = alpha * v1 + (1 - alpha) * v2, where v1 and v2 are the corresponding r, g, b
 	 * values in the two input color.
 	 */
-		    public static Color blend(Color c1, Color c2, double alpha) {
+	public static Color blend(Color c1, Color c2, double alpha) {
     double a = alpha;
     double b = 1.0 - alpha;
 
@@ -188,16 +188,13 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-	 int h1 = image1.length;
+    int h1 = image1.length;
     int w1 = image1[0].length;
 
     int h2 = image2.length;
     int w2 = image2[0].length;
 
-    // BOYUT KONTROLÜ (test bunu bekliyor)
-    if (h1 != h2 || w1 != w2) {
-        return null;
-    }
+    if (h1 != h2 || w1 != w2) return null;
 
     Color[][] out = new Color[h1][w1];
 
@@ -206,7 +203,6 @@ public class Runigram {
             out[i][j] = blend(image1[i][j], image2[i][j], alpha);
         }
     }
-
     return out;
 }
 
