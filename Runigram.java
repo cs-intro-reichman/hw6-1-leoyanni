@@ -125,17 +125,25 @@ public class Runigram {
 	 * Returns an image which is the grayscaled version of the given image.
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
-		int h = image.length;
-        int w = image[0].length;
-        Color[][] out = new Color[h][w];
+	int h = image.length;
+    int w = image[0].length;
+    Color[][] out = new Color[h][w];
 
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                out[i][j] = luminance(image[i][j]);
-            }
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            Color c = image[i][j];
+            int r = c.getRed();
+            int g = c.getGreen();
+            int b = c.getBlue();
+            
+            // Calculate grayscale as average of RGB components
+            int gray = (r + g + b) / 3;
+            
+            out[i][j] = new Color(gray, gray, gray);
         }
-        return out;
     }
+    return out;
+}
 		
 	
 	/**
@@ -195,21 +203,24 @@ public class Runigram {
      */
     public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
         // Check if images have same dimensions
-        if (image1.length != image2.length || image1[0].length != image2[0].length) {
-            image2 = scaled(image2, image1[0].length, image1.length);
-        }
-        
-        int h = image1.length;
-        int w = image1[0].length;
+    int h = image1.length;
+    int w = image1[0].length;
+    Color[][] out = new Color[h][w];
 
-        Color[][] out = new Color[h][w];
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                out[i][j] = blend(image1[i][j], image2[i][j], alpha);
-            }
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            Color c1 = image1[i][j];
+            Color c2 = image2[i][j];
+            
+            int r = (int) (alpha * c1.getRed() + (1 - alpha) * c2.getRed());
+            int g = (int) (alpha * c1.getGreen() + (1 - alpha) * c2.getGreen());
+            int b = (int) (alpha * c1.getBlue() + (1 - alpha) * c2.getBlue());
+            
+            out[i][j] = new Color(r, g, b);
         }
-        return out;
+    }
+    return out;
+}
     }
 
 	/**
