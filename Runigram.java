@@ -164,7 +164,7 @@ public class Runigram {
 	 * v = alpha * v1 + (1 - alpha) * v2, where v1 and v2 are the corresponding r, g, b
 	 * values in the two input color.
 	 */
-		public static Color blend(Color c1, Color c2, double alpha) {
+	public static Color blend(Color c1, Color c2, double alpha) {
     double a = alpha;
     double b = 1.0 - alpha;
 
@@ -172,8 +172,12 @@ public class Runigram {
     int g = (int) Math.round(a * c1.getGreen() + b * c2.getGreen());
     int bl = (int) Math.round(a * c1.getBlue() + b * c2.getBlue());
 
-    return new Color(r, g, bl);
+    
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    bl = Math.max(0, Math.min(255, bl));
 
+    return new Color(r, g, bl);
 }
 	
 	
@@ -183,19 +187,30 @@ public class Runigram {
 	 * and (1 - alpha) part the second image.
 	 * The two images must have the same dimensions.
 	 */
-	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-	int h = image1.length;
-    int w = image1[0].length;
-
-    Color[][] out = new Color[h][w];
-
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            out[i][j] = blend(image1[i][j], image2[i][j], alpha);
+		/**
+     * Cosntructs and returns an image which is the blending of the two given images.
+     * The blended image is the linear combination of (alpha) part of the first image
+     * and (1 - alpha) part the second image.
+     * The two images must have the same dimensions.
+     */
+    public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
+        // Check if images have same dimensions
+        if (image1.length != image2.length || image1[0].length != image2[0].length) {
+            image2 = scaled(image2, image1[0].length, image1.length);
         }
+        
+        int h = image1.length;
+        int w = image1[0].length;
+
+        Color[][] out = new Color[h][w];
+
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                out[i][j] = blend(image1[i][j], image2[i][j], alpha);
+            }
+        }
+        return out;
     }
-    return out;
-}
 
 	/**
 	 * Morphs the source image into the target image, gradually, in n steps.
