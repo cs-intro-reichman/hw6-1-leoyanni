@@ -188,16 +188,25 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-	int h = image1.length;
-    int w = image1[0].length;
+	 int h1 = image1.length;
+    int w1 = image1[0].length;
 
-    Color[][] out = new Color[h][w];
+    int h2 = image2.length;
+    int w2 = image2[0].length;
 
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    // BOYUT KONTROLÜ (test bunu bekliyor)
+    if (h1 != h2 || w1 != w2) {
+        return null;
+    }
+
+    Color[][] out = new Color[h1][w1];
+
+    for (int i = 0; i < h1; i++) {
+        for (int j = 0; j < w1; j++) {
             out[i][j] = blend(image1[i][j], image2[i][j], alpha);
         }
     }
+
     return out;
 }
 
